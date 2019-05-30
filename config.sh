@@ -5,7 +5,7 @@ echo '\n👨‍🚀 For actions requiring sudo right, please provide sudo passwo
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-CONFIG_FILE="/Volumes/Kama-encrypted/#Kama/macOS-config-variables"
+CONFIG_FILE="macOS-config-variables"
 
 if [ -f $CONFIG_FILE ]
 then
@@ -49,7 +49,7 @@ brew tap buo/cask-upgrade
 brew tap proxmark/proxmark3
 
 echo '\n👨‍🚀 Installing command-line utils'
-brew install git curl imagemagick@6 node rbenv wget zsh cmake coreutils
+brew install git curl imagemagick@6 node rbenv wget zsh cmake coreutils java openssl ruby-build mediainfo
 
 echo '\n👨‍🚀 Installing oh-my-zsh in a new window'
 osascript -e 'tell app "Terminal"
@@ -75,57 +75,83 @@ function mas_install () {
 }
 
 echo '\n👨‍🚀 Installing web navigators'
-brew cask install firefox google-chrome min opera opera-neon
+brew cask install firefox google-chrome min beaker-browser
 
 echo '\n👨‍🚀 Installing social apps'
-brew cask install discord skype slack telegram
-mas_install 'Twitter'
+brew cask install skype slack telegram
+#mas_install 'Twitter'
 
 echo '\n👨‍🚀 Installing utilities apps'
-brew install exiftool iperf lolcat ncdu nmap nyancat speedtest_cli terminal-notifier thefuck trash wakeonlan
-brew cask install aerial daisydisk etcher exodus handbrake hugin molotov sketch-toolbox spectacle virtualbox wireshark xmind
-mas_install 'Airmail 3'
-mas_install 'Amphetamine'
+brew install exiftool iperf ncdu nmap speedtest_cli terminal-notifier thefuck trash
+brew cask install daisydisk etcher exodus handbrake hugin spectacle virtualbox wireshark android-file-transfer gimp paragon-extfs macfusion audacity vysor standard-notes fantastical jaxx monero-wallet a-better-finder-attributes
 mas_install 'DrCleaner'
 mas_install 'Gifski'
 mas_install 'Go2Shell'
+mas_install 'vectoriseur-dimage'
+mas_install 'bumpr'
 mas_install 'Paste'
+#Paste replace ClipMenu (test in progress)
 mas_install 'The Unarchiver'
-mas_install 'Yummy FTP'
-npm install -g brb tldr
-# custom cask for sketch in version 43.2
-curl -o /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask/Casks/sketch.rb https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/custom_cask/sketch.rb
-brew cask install sketch
+npm install -g tldr brb
 
 echo '\n👨‍🚀 Installing music apps'
-brew cask install lastfm spotify
+brew cask install marshallofsound-google-play-music-player spotify
 
 echo '\n👨‍🚀 Installing video apps'
-brew cask install iina vlc
-mas_install 'iMovie'
+brew cask install vlc
 
 echo '\n👨‍🚀 Installing development apps'
-brew install python python3
-brew cask install arduino atom beyond-compare cocoapods-app codekit docker electrum intellij-idea-ce java kitematic postman sublime-text
+brew install python python3 sqlite postgresql@9.6 mysql redis
+brew cask install atom beyond-compare cocoapods-app docker postman
 mas_install 'Xcode'
+#TODO install command line client
 apm install sync-settings
-rbenv install 2.5.0
-rbenv global 2.5.0
+rbenv install 2.5.3
+rbenv global 2.5.3
 GITHUB_TOKEN=$ATOM_SS_TOKEN GIST_ID=$ATOM_SS_GIST atom
 
+rbenv install 2.4.1 #Santa
+rbenv install 2.1.0 #simara
+apm install language-haml language-kotlin remote-ftp language-dart
+
+#flutter
+mkdir "${HOME}/dev"
+mkdir "${HOME}/flutter/"
+curl -o "${HOME}/flutter/flutter.install" https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_v1.5.4-hotfix.2-stable.zip
+cd "${HOME}/flutter"
+unzip flutter.install
+export PATH="$PATH:`pwd`/flutter/bin"
+#setup for ios
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+brew install --HEAD usbmuxd
+brew install --HEAD libimobiledevice
+brew install ideviceinstaller ios-deploy cocoapods
+pod setup
+#setup for android
+brew cask install android-studio
+brew cask install android-sdk
+brew cask install android-platform-tools
+export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+export ANDROID_HOME=/usr/local/share/android-sdk/
+export ANDROID_NDK_HOME=/usr/local/share/android-ndk
+sdkmanager "platforms;android-28"
+sdkmanager "build-tools;29.0.0"
+sdkmanager "extras;android;m2repository"
+sdkmanager "extras;google;m2repository"
+sdkmanager "sources;android-28"
+#doctor
+flutter doctor
+flutter precache
+cd "${HOME}"
+
 echo '\n👨‍🚀 Installing security apps'
-brew install proxmark3
-brew cask install authy-desktop bitwarden keybase near-lock tunnelblick
-mas_install 'Encrypto'
+brew cask install keybase viscosity
 
 echo '\n👨‍🚀 Installing office apps'
 brew cask install macdown
-mas_install 'Keynote'
-mas_install 'Numbers'
-mas_install 'Pages'
 
 echo '\n👨‍🚀 Installing games'
-brew cask install league-of-legends minecraft openemu steam
+brew cask install steam
 
 echo '\n👨‍🚀 Post install cleanup'
 brew cleanup
@@ -162,39 +188,36 @@ defaults write com.apple.AddressBook ABNameSortingFormat 'sortingFirstName sorti
 defaults write com.apple.Safari SendDoNotTrackHTTPHeader false
 defaults write com.apple.Safari CanPromptForPushNotifications false
 # dock
-defaults write com.apple.dock magnification true
 defaults write com.apple.dock orientation 'Left'
-defaults write com.apple.dock autohide true
 defaults write com.apple.dock tilesize 30
-defaults write com.apple.dock largesize 67
 # screensaver
-defaults -currentHost write com.apple.screensaver askForPassword true
-defaults -currentHost write com.apple.screensaver askForPasswordDelay 0
-defaults -currentHost write com.apple.screensaver idleTime 300
+#defaults -currentHost write com.apple.screensaver askForPassword true
+#defaults -currentHost write com.apple.screensaver askForPasswordDelay 0
+#defaults -currentHost write com.apple.screensaver idleTime 300
 # screenshots
-defaults write com.apple.screencapture location "${HOME}/Desktop"
+defaults write com.apple.screencapture location "${HOME}/Downloads"
 defaults write com.apple.screencapture type "png"
 # dashboard
 defaults write com.apple.dashboard mcx-disabled false
 defaults write com.apple.dock dashboard-in-overlay true
 # simulators
 sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
-sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
+#sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
 # corners
-defaults write com.apple.dock wvous-tl-corner 2
-defaults write com.apple.dock wvous-tl-modifier 0
-defaults write com.apple.dock wvous-tr-corner 3
-defaults write com.apple.dock wvous-tr-modifier 0
-defaults write com.apple.dock wvous-bl-corner 7
-defaults write com.apple.dock wvous-bl-modifier 0
-defaults write com.apple.dock wvous-br-corner 4
-defaults write com.apple.dock wvous-br-modifier 0
+# defaults write com.apple.dock wvous-tl-corner 2
+# defaults write com.apple.dock wvous-tl-modifier 0
+# defaults write com.apple.dock wvous-tr-corner 3
+# defaults write com.apple.dock wvous-tr-modifier 0
+# defaults write com.apple.dock wvous-bl-corner 7
+# defaults write com.apple.dock wvous-bl-modifier 0
+# defaults write com.apple.dock wvous-br-corner 4
+# defaults write com.apple.dock wvous-br-modifier 0
 # timemachine
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup true
 # disable photo pop-up
 defaults -currentHost write com.apple.ImageCapture disableHotPlug true
 # ignore quarantine
-defaults write com.apple.LaunchServices LSQuarantine false
+#defaults write com.apple.LaunchServices LSQuarantine false
 # trackpad
 defaults write NSGlobalDomain com.apple.swipescrolldirection false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking true
@@ -205,13 +228,17 @@ defaults write com.apple.TextEdit RichText -int 0
 
 echo '\n👨‍🚀 Setting up applications preferences'
 # spectacle shortcuts
-curl -o ~/Library/Application\ Support/Spectacle/Shortcuts.json https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/app_settings/spectacle/Shortcuts.json
+curl -o ~/Library/Application\ Support/Spectacle/Shortcuts.json https://raw.githubusercontent.com/pierreem/macOS-config/master/app_settings/spectacle/Shortcuts.json
 # zshrc
-curl -o ~/.zshrc https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/app_settings/zsh/zshrc
+curl -o ~/.zshrc https://raw.githubusercontent.com/pierreem/macOS-config/master/app_settings/zsh/zshrc
 # oh-my-zsh theme
-curl -o ~/.oh-my-zsh/themes/kama.zsh-theme https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/app_settings/oh-my-zsh/kama.zsh-theme
+curl -o ~/.oh-my-zsh/themes/kama.zsh-theme https://raw.githubusercontent.com/pierreem/macOS-config/master/app_settings/oh-my-zsh/kama.zsh-theme
 
 echo '\n👨‍🚀 Checking for macOS updates'
 softwareupdate -ia
+
+echo "manual install:"
+curl -o "${HOME}/Downloads/pulse.dmg" https://github.com/klinker-apps/messenger-desktop/releases/download/v3.4.3/pulse-sms-3.4.3.dmg
+echo "Pulse.dmg"
 
 echo '\n👨‍🚀 All set up, just reboot !'
