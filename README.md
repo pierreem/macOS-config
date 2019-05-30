@@ -7,7 +7,7 @@ This script allows me to install everything I need when setting up a new Mac. Fo
 **Via curl**
 
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/config.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/pierreem/macOS-config/master/config.sh)"
 ```
 
 ## Custom installation
@@ -21,6 +21,7 @@ Make your own version of the "macOS-config-variables.example" file to include yo
 ## Credits
 
 This script is based on the work of :
+- Kamasoutra : https://raw.githubusercontent.com/Kamasoutra/macOS-config/master/config.sh
 - nicolinuxfr : https://github.com/nicolinuxfr/macOS-post-installation
 - kevinSuttle : https://github.com/kevinSuttle/macOS-Defaults
 - mathiasbynens : https://github.com/mathiasbynens/dotfiles
