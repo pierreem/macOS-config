@@ -83,7 +83,7 @@ brew cask install skype slack telegram
 
 echo '\n👨‍🚀 Installing utilities apps'
 brew install exiftool iperf ncdu nmap speedtest_cli terminal-notifier thefuck trash
-brew cask install daisydisk etcher exodus handbrake hugin spectacle virtualbox wireshark android-file-transfer gimp paragon-extfs macfusion audacity vysor standard-notes fantastical jaxx monero-wallet a-better-finder-attributes
+brew cask install daisydisk etcher exodus handbrake hugin spectacle virtualbox wireshark android-file-transfer gimp paragon-extfs macfusion vysor standard-notes fantastical monero-wallet a-better-finder-attributes jaxx-liberty
 mas_install 'DrCleaner'
 mas_install 'Gifski'
 mas_install 'Go2Shell'
@@ -102,7 +102,7 @@ brew cask install vlc
 
 echo '\n👨‍🚀 Installing development apps'
 brew install python python3 sqlite postgresql@9.6 mysql redis
-brew cask install atom beyond-compare cocoapods-app docker postman
+brew cask install atom beyond-compare docker postman
 mas_install 'Xcode'
 #TODO install command line client
 apm install sync-settings
