@@ -83,7 +83,7 @@ brew cask install skype slack telegram
 
 echo '\n👨‍🚀 Installing utilities apps'
 brew install exiftool iperf ncdu nmap speedtest_cli terminal-notifier thefuck trash
-brew cask install daisydisk etcher exodus handbrake hugin spectacle virtualbox wireshark android-file-transfer gimp paragon-extfs macfusion vysor standard-notes fantastical monero-wallet a-better-finder-attributes jaxx-liberty
+brew cask install fastlane daisydisk etcher exodus handbrake hugin spectacle virtualbox wireshark android-file-transfer gimp paragon-extfs macfusion vysor standard-notes fantastical monero-wallet a-better-finder-attributes jaxx-liberty
 mas_install 'DrCleaner'
 mas_install 'Gifski'
 mas_install 'Go2Shell'
